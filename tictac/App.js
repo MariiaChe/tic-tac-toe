@@ -134,7 +134,9 @@ export default class App extends React.Component{
   render(){
     return (
     <ImageBackground source={require('./img/back4.jpg')} style={styles.container}>
-      <Text style={styles.text}>Steve vs Creeper</Text>
+   
+     <Image source={require('./img/stevevs.png')} style={styles.img}/>
+ 
       <View style={{flexDirection:"row"}}>
         <TouchableOpacity onPress={()=>this.onTilePress(0,0)} style={[styles.tile, {borderLeftWidth:0, borderTopWidth:0}]}>
         {this.renderIcon(0,0)}
@@ -180,10 +182,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  text:{
-    color:"white",
-    fontSize:40,
-  
+  img:{
+    width:'90%',
+    height:'25px',
+    marginBottom:'20px',
+    marginTop:'0px',
+    padding:'0px'
+    
   },
   tile:{
     borderColor:"white",
