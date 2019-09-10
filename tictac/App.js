@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, Alert, ImageBackground } from 'react-native';
-
+import { StyleSheet, Text, View, Image, TouchableOpacity, Button, ImageBackground } from 'react-native';
+// import ResponsiveImage from 'react-native-responsive-image';
 export default class App extends React.Component{
   constructor(props){
     super(props); 
@@ -10,7 +10,9 @@ export default class App extends React.Component{
         [0, 0, 0],
         [0, 0, 0]
       ],
-      currentPlayer:1 
+      currentPlayer:1 ,
+      Steve:0,
+      Creeper:0
     }
   }
   
@@ -48,7 +50,6 @@ export default class App extends React.Component{
       sum = arr[0][i]+arr[1][i]+arr[2][i];
       if(sum === 3){
         return 1
-     
       }else if(sum === -3){
         return -1
      
@@ -103,12 +104,16 @@ export default class App extends React.Component{
     this.setState({currentPlayer:nextPlayer});
 
     //revisa ganadores
+   
     var winner = this.getWinner();
     if(winner === 1){
       alert("Победил Стив!")
+      this.setState({Steve:this.state.Steve + 1})
+     
       this.initializeGame()
     }else if(winner===-1){
       alert("Победил Крипер!")
+      this.setState({Creeper:this.state.Creeper + 1})
       this.initializeGame()
     }else if(winner === 0){
       alert("Ничья!")
@@ -130,13 +135,19 @@ export default class App extends React.Component{
     }
 
   }
+  handlePress = () => {
+    this.initializeGame()
+    this.setState({Steve:0})
+    this.setState({Creeper:0})
+  }
 
   render(){
     return (
     <ImageBackground source={require('./img/back4.jpg')} style={styles.container}>
-   
+      {/* <View style={{flex: 1, justifyContent: 'center',}}> */}
+        {/* <ResponsiveImage  source={{uri:'./img/stevevs.png'}} initWidth="80" initHeight="80" item={item} /> */}
+      {/* </View> */}
      <Image source={require('./img/stevevs.png')} style={styles.img}/>
- 
       <View style={{flexDirection:"row"}}>
         <TouchableOpacity onPress={()=>this.onTilePress(0,0)} style={[styles.tile, {borderLeftWidth:0, borderTopWidth:0}]}>
         {this.renderIcon(0,0)}
@@ -170,6 +181,14 @@ export default class App extends React.Component{
         {this.renderIcon(2,2)}
         </TouchableOpacity>
       </View>
+      <View style={{flexDirection:"row"}}>
+        <Text style={styles.text}>Стив: {this.state.Steve}</Text>
+        <Text style={styles.text}>Крипер: {this.state.Creeper}</Text>
+      </View>
+      
+        <TouchableOpacity onPress={this.handlePress}>
+          <Text style={styles.button}>играть сначала!</Text>
+        </TouchableOpacity>
     </ImageBackground>
   )
   }
@@ -183,12 +202,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   img:{
-    width:'90%',
-    height:'25px',
-    marginBottom:'20px',
-    marginTop:'0px',
-    padding:'0px'
-    
+    width:'70%',
+    height:20,
+    marginBottom:40,
+    marginTop:0,
   },
   tile:{
     borderColor:"white",
@@ -197,17 +214,33 @@ const styles = StyleSheet.create({
     height:80,
   },
   tileSteve:{
-  
     alignItems:"center",
     justifyContent: "center",
     width:'100%',
     height:'100%',
   },
   tileCreeper:{
-   
     alignItems:"center",
     justifyContent: "center",
     width:'100%',
     height:'100%',
+  },
+  text:{
+    marginTop:20,
+    marginRight:20,
+    color:'white',
+    marginLeft:20,
+    fontSize:28,
+    fontWeight:'bold'
+  },
+  button:{
+    color:'white',
+    borderColor:"white",
+    borderWidth:4,
+    borderRadius:10,
+    padding:8,
+    fontSize:20,
+    marginTop:20,
+    fontWeight:'bold'
   }
 });
